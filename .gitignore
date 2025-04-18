@@ -1,5 +1,5 @@
 # Environment variables
-.env.txt
+env.txt
 # Python
 __pycache__/
 *.py[cod]
