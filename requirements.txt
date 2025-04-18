@@ -1,0 +1,11 @@
+streamlit
+python-dotenv
+langchain
+langchain-community
+langchain-core
+langchain-groq
+langchain-ollama
+faiss-cpu
+pypdf  # Needed for PyPDFDirectoryLoader
+sentence-transformers
+langchain_huggingface
