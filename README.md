@@ -1,3 +1,5 @@
+
+
 # 💬 job-description-chat-bot
 
 Chat with your documents using the power of **Llama3-8B** and **Groq**! 
@@ -34,7 +36,7 @@ Before running the app, make sure to set up your environment variables:
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone 
+   git clone https://github.com/akhilaraop/job-description-chat.git
    cd job-description-chat-bot
    ```
 2. Install the dependencies:
