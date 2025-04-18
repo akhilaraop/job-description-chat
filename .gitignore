@@ -28,6 +28,7 @@ ENV/
 env/
 .env/
 .venv/
+venv310/
 
 # Streamlit
 .streamlit/

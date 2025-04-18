@@ -45,7 +45,7 @@ Before running the app, make sure to set up your environment variables:
    ```
 3. Run the Streamlit app:
    ```bash
-   streamlit run app.py
+   streamlit run main.py
    ```
 4. Open the app in your browser (usually at http://localhost:8501)
 
@@ -77,7 +77,7 @@ Before running the app, make sure to set up your environment variables:
                       │
                       ▼
      ┌─────────────────────────────────────┐
-     │ Load PDFs from "./us_census" folder │
+     │ Load PDFs from "./job_descriptions" folder │
      ├─────────────────────────────────────┤
      │ Split documents into chunks         │
      ├─────────────────────────────────────┤

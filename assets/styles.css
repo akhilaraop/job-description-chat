@@ -1,0 +1,39 @@
+/* Sidebar background */
+[data-testid="stSidebar"] {
+    background-color: #f8f9fa;
+    padding-top: 1rem;
+}
+
+/* Container spacing */
+.block-container {
+    padding-top: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+/* Custom button styling */
+.stButton button {
+    background-color: #0d6efd;
+    color: white;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border: none;
+}
+
+.stButton button:hover {
+    background-color: #084298;
+}
+
+/* Text input styling */
+.stTextInput > div > div > input {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Expander section */
+.stExpanderHeader {
+    font-weight: bold;
+    color: #0d6efd;
+}
