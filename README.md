@@ -183,6 +183,3 @@ Handles the interaction with the Llama3 8B model through Groq's API:
 - Initializes the language model with the Groq API key
 - Creates a prompt template for context-aware responses
 - Processes queries using a retrieval chain
-
-
-

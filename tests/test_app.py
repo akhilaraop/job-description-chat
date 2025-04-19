@@ -5,9 +5,6 @@ from rag_app.app import RAGApp
 
 @pytest.fixture
 def mock_env(monkeypatch):
-    '''
-    
-    '''
     monkeypatch.setenv("GROQ_API_KEY", "fake-key")
 
 
