@@ -5,11 +5,11 @@ This Streamlit app lets you upload PDFs, converts them into embeddings with Hugg
 
 ##  Features
 
-- Upload and process PDF job descriptions
-- Smart document embedding using HuggingFace
-- Fast similarity search with FAISS
-- Intelligent answers powered by Llama3-8B and Groq
-- User-friendly Streamlit interface
+- PDF document processing and embedding
+- Context-aware question answering
+- Similarity search results display
+- Streamlit-based user interface
+- Performance metrics display
 
 ##  Requirements
 
@@ -184,42 +184,5 @@ Handles the interaction with the Llama3 8B model through Groq's API:
 - Creates a prompt template for context-aware responses
 - Processes queries using a retrieval chain
 
-## Dependencies
 
-- Python 3.10+
-- Streamlit
-- LangChain
-- FAISS
-- HuggingFace Transformers
-- Groq API
 
-## Setup
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Set up your environment variables:
-   ```bash
-   export GROQ_API_KEY="your-api-key"
-   ```
-4. Place your PDF documents in the `job_descriptions` directory
-5. Run the application:
-   ```bash
-   python main.py
-   ```
-
-## Usage
-
-1. Click the "Document Embeddings" button to process your documents
-2. Enter your question in the text input field
-3. View the response and relevant document context
-
-## Features
-
-- PDF document processing and embedding
-- Context-aware question answering
-- Similarity search results display
-- Streamlit-based user interface
-- Performance metrics display
