@@ -1,9 +1,9 @@
-# job-description-chat-bot
+# Job Description ChatBot
 
 Chat with your documents using the power of **Llama3-8B** and **Groq**! 
 This Streamlit app lets you upload PDFs, converts them into embeddings with HuggingFace, and retrieves smart, contextual answers at lightning speed.
 
-##  Features
+## Features
 
 - PDF document processing and embedding
 - Context-aware question answering
@@ -11,81 +11,72 @@ This Streamlit app lets you upload PDFs, converts them into embeddings with Hugg
 - Streamlit-based user interface
 - Performance metrics display
 
-##  Requirements
+## Requirements
 
 - Python 3.x
-- Streamlit – for the web UI
-- Langchain - to chain together the retrieval and LLM calls 
-- HuggingFace Embeddings – for document vectorization
-- FAISS – for efficient similarity search
-- Groq + Llama3-8B – for fast, powerful natural language answers
-- PyPDFDirectoryLoader – to load PDFs from a directory
+- Streamlit
+- Langchain
+- HuggingFace Embeddings
+- FAISS
+- Groq + Llama3-8B
+- PyPDFDirectoryLoader
 
 ## Getting Started
 
 ### Environment Setup
-Before running the app, make sure to set up your environment variables:
-1. Create a `.env` file in the root directory
-2. Add your GROQ_API_KEY:
+
+1. Create and activate a Python virtual environment:
+   ```bash
+   # Create virtual environment
+   python -m venv venv
+   
+   # Activate virtual environment
+   # On macOS/Linux:
+   source venv/bin/activate
+   # On Windows:
+   .\venv\Scripts\activate
+   ```
+
+2. Create a `.env` file in the root directory and add your GROQ_API_KEY:
    ```bash
    GROQ_API_KEY=<your_groq_api_key>
    ```
 
 ### Installation
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/akhilaraop/job-description-chat.git
-   cd job-description-chat-bot
+   cd job-description-chat
    ```
+
 2. Install the dependencies:
    ```bash
    pip install -r requirements.txt
    ```
+
 3. Run the Streamlit app:
    ```bash
    streamlit run main.py
    ```
+
 4. Open the app in your browser (usually at http://localhost:8501)
 
 ## Testing
 
-The project includes unit tests to ensure functionality. To run the tests:
+Run the test suite:
+```bash
+# Run all tests
+python -m pytest tests/
 
-1. Make sure you're in the virtual environment:
-   ```bash
-   source venv310/bin/activate
-   ```
+# For verbose output
+python -m pytest tests/ -v
 
-2. Run all tests:
-   ```bash
-   python -m pytest tests/
-   ```
+# Run specific test file
+python -m pytest tests/test_app.py
+```
 
-3. For verbose output:
-   ```bash
-   python -m pytest tests/ -v
-   ```
-
-4. To run a specific test file:
-   ```bash
-   python -m pytest tests/test_app.py
-   ```
-
-The test suite includes:
-- App initialization tests
-- Document processing tests
-- Query handling tests
-- Context retrieval tests
-
-## 🔍 Functionality
-
-- **Document Ingestion**: Upload your PDF job descriptions to be processed by the system
-- **Smart Embedding**: Documents are automatically processed and embedded using state-of-the-art HuggingFace models
-- **Efficient Retrieval**: FAISS vector database enables lightning-fast similarity search
-- **Intelligent Q&A**: Ask questions about your job descriptions and get contextual answers powered by Llama3-8B
-- **Real-time Processing**: Get instant responses with Groq's high-performance infrastructure
-
-## 🔁 How It Works (Data Flow)
+## How It Works
 
 ```text
         ┌─────────────────────────────┐
@@ -135,51 +126,28 @@ The test suite includes:
      └─────────────────────────────────────┘
 ```
 
+1. **Document Processing**:
+   - PDFs are loaded from the "./job_descriptions" folder
+   - Documents are split into chunks
+   - Embeddings are created using HuggingFace
+   - Results are stored in FAISS vector database
+
+2. **Query Processing**:
+   - User enters a question
+   - Relevant chunks are retrieved from FAISS
+   - Context and question are passed to Llama3-8B
+   - Response is generated via Groq
+   - Answer and response time are displayed
+
 ## Architecture
 
-### Class Diagram
-See [class_diagram.md](assets/class_diagram.md) for the detailed class diagram of the application.
+The system architecture is documented in two key diagrams:
 
-### Information Flow
+1. **Class Diagram**: See [class_diagram.md](documents/class_diagram.md) for the detailed class relationships and interactions.
+2. **System Design**: For comprehensive system design information, see [SYSTEM_DESIGN.md](documents/SYSTEM_DESIGN.md).
 
-1. **Application Initialization**:
-   - `main.py` creates an instance of `RAGApp`
-   - `RAGApp` initializes `DocumentProcessor` and `RAGModel`
-   - Environment variables are loaded and validated
+### Main Components
 
-2. **Document Processing Flow**:
-   ```
-   User clicks "Document Embeddings" 
-   → RAGApp.prepare_vectorstore() 
-   → DocumentProcessor.load_and_embed() 
-   → Documents are loaded, split, and embedded 
-   → FAISS vector store is created and cached
-   ```
-
-3. **Query Processing Flow**:
-   ```
-   User enters question 
-   → RAGApp.handle_user_input() 
-   → RAGApp.query_documents() 
-   → RAGModel.get_response() 
-   → Retrieval chain processes query 
-   → Response is displayed with context
-   ```
-
-## Components
-
-### RAGApp
-The main application class that handles the Streamlit UI and coordinates between document processing and query handling.
-
-### DocumentProcessor
-Responsible for:
-- Loading PDF documents from the specified directory
-- Splitting documents into chunks
-- Creating embeddings using HuggingFace's all-MiniLM-L6-v2 model
-- Building and returning a FAISS vector store
-
-### RAGModel
-Handles the interaction with the Llama3 8B model through Groq's API:
-- Initializes the language model with the Groq API key
-- Creates a prompt template for context-aware responses
-- Processes queries using a retrieval chain
+- **RAGApp**: Main application class handling UI and coordination
+- **DocumentProcessor**: Handles PDF loading, chunking, and embedding
+- **RAGModel**: Manages interaction with Llama3-8B through Groq's API
