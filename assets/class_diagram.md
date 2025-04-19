@@ -1,3 +1,4 @@
+```mermaid 
 classDiagram
     class RAGApp {
         -api_key: str
