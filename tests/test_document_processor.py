@@ -17,5 +17,3 @@ class TestDocumentProcessor(unittest.TestCase):
         self.assertIsNotNone(vectorstore)
         self.assertTrue(hasattr(vectorstore, "similarity_search"))
 
-if __name__ == "__main__":
-    unittest.main()
