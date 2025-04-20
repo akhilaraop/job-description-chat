@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.git
+.env.example
+.DS_Store
+*.log
+*.swp
+*.swo 

@@ -1,3 +1,75 @@
+# Job Description Chat Application
+
+This repository contains a Streamlit application for job description analysis using GROQ API.
+
+## Prerequisites
+
+- Docker installed on your system
+- GROQ API key
+
+## Docker Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/akhilaraop/job-description-chat.git
+cd job-description-chat
+```
+
+2. Create a `.env` file in the root directory with your GROQ API key:
+```
+GROQ_API_KEY=your_api_key_here
+```
+
+3. Build the Docker image:
+```bash
+docker build -t job-description-chat .
+```
+
+4. Run the container:
+```bash
+docker run -p 8501:8501 --env-file .env job-description-chat
+```
+
+The application will be available at `http://localhost:8501`
+
+## Running Tests in Docker
+
+To run tests in the Docker container:
+
+```bash
+# Build the test image
+docker build -t job-description-chat-tests .
+
+# Run all tests
+docker run job-description-chat-tests python -m pytest
+
+# Run specific tests
+docker run job-description-chat-tests python -m pytest tests/test_main.py
+```
+
+## Project Structure
+
+```
+job-description-chat/
+├── Dockerfile
+├── .dockerignore
+├── .env
+├── main.py
+├── requirements.txt
+├── rag_app/
+│   └── ...
+├── tests/
+│   └── ...
+├── job_descriptions/
+│   └── ...
+└── documents/
+    └── ...
+```
+
+## Notes
+- Keep your `.env` file secure and never commit it to version control
+- For production deployment, consider using Docker secrets or environment variables passed at runtime instead of copying the .env file
+
 # Job Description ChatBot
 
 Chat with your documents using the power of **Llama3-8B** and **Groq**! 
@@ -10,71 +82,6 @@ This Streamlit app lets you upload PDFs, converts them into embeddings with Hugg
 - Similarity search results display
 - Streamlit-based user interface
 - Performance metrics display
-
-## Requirements
-
-- Python 3.x
-- Streamlit
-- Langchain
-- HuggingFace Embeddings
-- FAISS
-- Groq + Llama3-8B
-- PyPDFDirectoryLoader
-
-## Getting Started
-
-### Environment Setup
-
-1. Create and activate a Python virtual environment:
-   ```bash
-   # Create virtual environment
-   python -m venv venv
-   
-   # Activate virtual environment
-   # On macOS/Linux:
-   source venv/bin/activate
-   # On Windows:
-   .\venv\Scripts\activate
-   ```
-
-2. Create a `.env` file in the root directory and add your GROQ_API_KEY:
-   ```bash
-   GROQ_API_KEY=<your_groq_api_key>
-   ```
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/akhilaraop/job-description-chat.git
-   cd job-description-chat
-   ```
-
-2. Install the dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Run the Streamlit app:
-   ```bash
-   streamlit run main.py
-   ```
-
-4. Open the app in your browser (usually at http://localhost:8501)
-
-## Testing
-
-Run the test suite:
-```bash
-# Run all tests
-python -m pytest tests/
-
-# For verbose output
-python -m pytest tests/ -v
-
-# Run specific test file
-python -m pytest tests/test_app.py
-```
 
 ## How It Works
 
