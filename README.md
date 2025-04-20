@@ -5,7 +5,19 @@ This repository contains a Streamlit application for job description analysis us
 ## Prerequisites
 
 - Docker installed on your system
-- GROQ API key
+- GROQ API key (see instructions below)
+
+### Getting a GROQ API Key
+
+1. Go to [GROQ Console](https://console.groq.com/)
+2. Sign up for an account if you don't have one
+3. Once logged in, navigate to the API Keys section
+4. Click "Create API Key"
+5. Copy the generated API key
+6. Create a `.env` file in the project root and add:
+```
+GROQ_API_KEY=your_copied_api_key_here
+```
 
 ## Docker Setup
 
