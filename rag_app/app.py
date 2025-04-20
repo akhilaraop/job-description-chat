@@ -65,19 +65,30 @@ class RAGApp:
             st.warning("Please click 'Document Embeddings' first to prepare the data.")
             return
 
-        retriever = st.session_state["vectorstore"].as_retriever()
+        try:
+            retriever = st.session_state["vectorstore"].as_retriever()
+            if retriever is None:
+                st.error("Failed to create retriever. Please try preparing the documents again.")
+                return
 
-        st.info("Processing your query. Please wait...")
-        start = time.process_time()
+            st.info("Processing your query. Please wait...")
+            start = time.process_time()
 
-        response = self.model.get_response(retriever, prompt)
+            response = self.model.get_response(retriever, prompt)
+            if not response or "answer" not in response:
+                st.error("Failed to get response from the model. Please try again.")
+                return
 
-        st.success("Query processed successfully!")
-        st.write("### Response:")
-        st.write(f"Response time: {time.process_time() - start:.2f} seconds")
-        st.write(response["answer"])
+            st.success("Query processed successfully!")
+            st.write("### Response:")
+            st.write(f"Response time: {time.process_time() - start:.2f} seconds")
+            st.write(response["answer"])
 
-        self.display_similarity_results(response["context"])
+            self.display_similarity_results(response.get("context", []))
+
+        except Exception as e:
+            st.error(f"An error occurred while processing your query: {str(e)}")
+            st.info("Please try preparing the documents again or check your internet connection.")
 
     def display_similarity_results(self, context_docs: list) -> None:
         """Display document context from similarity search."""

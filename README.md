@@ -56,7 +56,7 @@ docker build -t job-description-chat-tests .
 docker run job-description-chat-tests python -m pytest
 
 # Run specific tests
-docker run job-description-chat-tests python -m pytest tests/test_main.py
+docker run job-description-chat-tests python -m pytest tests/test_app.py
 ```
 
 ## Project Structure

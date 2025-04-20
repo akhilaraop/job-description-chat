@@ -31,7 +31,17 @@ classDiagram
         +get_response(retriever, user_input: str) dict
     }
 
+    class TestRAGApp {
+        +test_initialization_sets_up_dependencies()
+        +test_query_documents_with_context()
+        +test_query_documents_no_vectorstore()
+        +test_query_documents_retriever_failure()
+        +test_query_documents_model_failure()
+        +test_query_documents_exception_handling()
+    }
+
     RAGApp --> DocumentProcessor : uses
     RAGApp --> RAGModel : uses
     DocumentProcessor --> FAISS : creates
     RAGModel --> ChatGroq : uses
+    TestRAGApp ..> RAGApp : tests
