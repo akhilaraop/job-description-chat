@@ -20,15 +20,21 @@ classDiagram
         -path: str
         -loader: PyPDFDirectoryLoader
         -embeddings: HuggingFaceEmbeddings
+        -chunk_size: int = 1000
+        -chunk_overlap: int = 200
         +__init__(path: str)
         +load_and_embed() FAISS
+        +split_documents(documents) List[Document]
     }
 
     class RAGModel {
         -llm: ChatGroq
+        -model_name: str = "llama3-8b-8192"
         -prompt: ChatPromptTemplate
+        -temperature: float = 0.7
         +__init__(groq_api_key: str)
         +get_response(retriever, user_input: str) dict
+        +format_response(response: str, sources: List[str]) str
     }
 
     class TestRAGApp {
@@ -38,6 +44,9 @@ classDiagram
         +test_query_documents_retriever_failure()
         +test_query_documents_model_failure()
         +test_query_documents_exception_handling()
+        +test_display_similarity_results()
+        +test_handle_user_input()
+        +test_prepare_vectorstore()
     }
 
     RAGApp --> DocumentProcessor : uses
