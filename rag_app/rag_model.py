@@ -43,19 +43,18 @@ class RAGModel:
         """
         logger.info("Initializing RAGModel")
         try:
-            self.llm = ChatGroq(groq_api_key=groq_api_key, model_name="Llama3-8b-8192")
-            logger.info("ChatGroq model initialized successfully")
-            
-            self.prompt = ChatPromptTemplate.from_template(
-                """
-                Answer the questions based on the provided context only.
-                Please provide the most accurate response based on the question.
-                <context>
-                {context}
-                <context>
-                Question: {input}
-                """
+            # Initialize model with configuration
+            model_config = config['rag_model']
+            self.llm = ChatGroq(
+                groq_api_key=groq_api_key,
+                model_name=model_config['model_name'],
+                temperature=model_config['temperature'],
+                max_tokens=model_config['max_tokens']
             )
+            logger.info(f"ChatGroq model initialized with {model_config['model_name']}")
+            
+            # Create prompt template from configuration
+            self.prompt = ChatPromptTemplate.from_template(model_config['prompt_template'])
             logger.info("Prompt template created successfully")
         except Exception as e:
             logger.error(f"Error initializing RAGModel: {str(e)}", exc_info=True)

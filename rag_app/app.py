@@ -65,7 +65,7 @@ class RAGApp:
         The styles are applied to the entire Streamlit application.
         """
         logger.info("Loading custom CSS styles")
-        css_path = os.path.join(os.path.dirname(__file__), "..", "assets", "styles.css")
+        css_path = os.path.join(os.path.dirname(__file__), "..", config['app']['css_path'])
         if os.path.exists(css_path):
             with open(css_path) as f:
                 st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -73,27 +73,25 @@ class RAGApp:
         else:
             logger.warning(f"CSS file not found at {css_path}")
 
-    def setup_sidebar(self, logo_path: str) -> None:
-        """Setup the sidebar with instructions and branding.
-        
-        Args:
-            logo_path: Path to the logo image file.
-        """
+    def setup_sidebar(self) -> None:
+        """Setup the sidebar with instructions and branding."""
         logger.info("Setting up sidebar")
-        st.sidebar.title("Job Description ChatBot")
+        app_config = config['app']
+        
+        st.sidebar.title(app_config['title'])
+        logo_path = os.path.join(os.path.dirname(__file__), "..", app_config['logo_path'])
         if os.path.exists(logo_path):
-            st.sidebar.image(Image.open(logo_path), width=200)
+            st.sidebar.image(Image.open(logo_path), width=app_config['ui']['sidebar_width'])
             logger.info("Logo loaded successfully")
         else:
             logger.warning(f"Logo file not found at {logo_path}")
         
         st.sidebar.markdown("## Instructions")
-        st.sidebar.markdown("1. Click on 'Document Embeddings' to prepare the data.")
-        st.sidebar.markdown("2. Ask questions related to your documents.")
+        for instruction in app_config['instructions']:
+            st.sidebar.markdown(f"- {instruction}")
+        
         st.sidebar.markdown("## About")
-        st.sidebar.markdown(
-            "This app uses Llama3 8B model to answer questions based on your Job Description documents."
-        )
+        st.sidebar.markdown(app_config['about'])
         logger.info("Sidebar setup complete")
 
     def prepare_vectorstore(self) -> None:
@@ -186,8 +184,9 @@ class RAGApp:
             Optional[str]: The user's input text if provided, None otherwise.
         """
         logger.info("Displaying main UI")
-        st.subheader("Chat with your Job Description documents using Llama3 8B")
-        return st.text_input("Enter your question from Documents!!")
+        ui_config = config['app']['ui']
+        st.subheader(ui_config['main_header'])
+        return st.text_input(ui_config['input_label'])
 
     def handle_user_input(self, prompt: Optional[str]) -> None:
         """Handle the document embedding and query interaction.
@@ -195,7 +194,7 @@ class RAGApp:
         Args:
             prompt: The user's input text, if any.
         """
-        if st.button("Document Embeddings"):
+        if st.button(config['app']['ui']['button_text']):
             logger.info("Document Embeddings button clicked")
             self.prepare_vectorstore()
 
@@ -211,10 +210,7 @@ class RAGApp:
         """
         logger.info("Starting RAGApp")
         self.load_styles()
-        logo_path = os.path.join(
-            os.path.dirname(__file__), "..", "assets", "jd_chat_bot.png"
-        )
-        self.setup_sidebar(logo_path)
+        self.setup_sidebar()
 
         prompt = self.display_main_ui()
         self.handle_user_input(prompt)
