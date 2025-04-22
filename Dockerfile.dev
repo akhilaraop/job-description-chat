@@ -1,0 +1,19 @@
+# Dockerfile.dev
+FROM python:3.10
+
+# Install required packages
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install dev tools
+RUN pip install watchdog pytest
+
+# Copy the application last to benefit from Docker layer caching
+COPY . .
+
+# Expose Streamlit port
+EXPOSE 8501
+
+# Default command
+CMD ["streamlit", "run", "main.py", "--server.address=0.0.0.0", "--server.runOnSave=true"]

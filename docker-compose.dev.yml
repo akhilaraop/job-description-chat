@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  streamlit-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app  # Mount code for live reloading
+    ports:
+      - "8501:8501"
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: streamlit run main.py --server.address=0.0.0.0 --server.runOnSave=true
+
+  test-watcher:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+    entrypoint: ["watchmedo", "shell-command", "--patterns=*.py", "--recursive", "--command=pytest"]

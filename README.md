@@ -10,10 +10,11 @@ This Streamlit app lets you upload PDFs, converts them into embeddings with Hugg
 - Similarity search results display
 - Streamlit-based user interface
 - Performance metrics display
+- Development mode with hot-reloading and test watching
 
 ## Prerequisites
 
-- Docker installed on your system
+- Docker and Docker Compose installed on your system
 - GROQ API key (see instructions below)
 
 ### Getting a GROQ API Key
@@ -22,54 +23,68 @@ This Streamlit app lets you upload PDFs, converts them into embeddings with Hugg
 2. Sign up for an account if you don't have one
 3. Once logged in, navigate to the API Keys section
 4. Click "Create API Key"
-5. Copy the generated API key
-6. Create a `.env` file in the project root and add:
-```bash
-   # Method 1: Using touch and then edit
-   touch .env
-   
-   ```
-7. Add the API key to the `.env` file:
 
-```bash
-   GROQ_API_KEY=your-api-key-here
-   ```
 
-## Docker Setup
+## Development Setup
+
+The project includes a development environment with hot-reloading and test watching capabilities.
+
+### Using Docker Compose (Recommended)
 
 1. Clone the repository:
 ```bash
 git clone https://github.com/akhilaraop/job-description-chat.git
 cd job-description-chat
 ```
+2. From the project directory, create a `.env` file with your GROQ API key created earlier
+```bash
+GROQ_API_KEY=your-api-key-here > .env
+```
 
-2. Build the Docker image:
+2. Start the development environment:
+```bash
+docker-compose -f docker-compose.dev.yml up
+```
+
+This will start two services:
+- `streamlit-app`: The main application with hot-reloading enabled
+- `test-watcher`: Automatically runs tests when Python files change
+
+The application will be available at `http://localhost:8501`
+
+
+## Production Setup
+
+For production deployment:
+
+1. Build the production image:
 ```bash
 docker build -t job-description-chat .
 ```
 
-4. Run the container:
+2. Run the container:
 ```bash
 docker run -p 8501:8501 --env-file .env job-description-chat
 ```
 
-The application will be available at `http://localhost:8501`
+## Running Tests
 
-## Running Tests in Docker
+### Using Docker Compose (Development)
+Tests will automatically run when Python files change:
+```bash
+docker-compose -f docker-compose.dev.yml up test-watcher
+```
 
-To run tests in the Docker container:
+### Manual Test Execution
+To run tests manually:
 
 ```bash
-# Build the test image
-docker build -t job-description-chat-tests .
-
 # Run all tests
 docker run job-description-chat-tests python -m pytest
 
 # Run specific tests
 docker run job-description-chat-tests python -m pytest tests/test_app.py
 ```
-
 
 ## How It Works
 
