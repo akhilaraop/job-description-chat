@@ -5,14 +5,15 @@ classDiagram
         -processor: DocumentProcessor
         -model: RAGModel
         -vectorstore: FAISS
+        -config: Dict[str, Any]
         +__init__()
         +load_styles()
-        +setup_sidebar()
+        +setup_sidebar(logo_path: str)
         +prepare_vectorstore()
-        +query_documents()
-        +display_similarity_results()
-        +display_main_ui()
-        +handle_user_input()
+        +query_documents(prompt: str)
+        +display_similarity_results(context_docs: List[Any])
+        +display_main_ui() Optional[str]
+        +handle_user_input(prompt: Optional[str])
         +run()
     }
 
@@ -20,8 +21,7 @@ classDiagram
         -path: str
         -loader: PyPDFDirectoryLoader
         -embeddings: HuggingFaceEmbeddings
-        -chunk_size: int = 1000
-        -chunk_overlap: int = 200
+        -config: Dict[str, Any]
         +__init__(path: str)
         +load_and_embed() FAISS
         +split_documents(documents) List[Document]
@@ -31,26 +31,20 @@ classDiagram
         -llm: ChatGroq
         -model_name: str = "llama3-8b-8192"
         -prompt: ChatPromptTemplate
-        -temperature: float = 0.7
+        -config: Dict[str, Any]
         +__init__(groq_api_key: str)
-        +get_response(retriever, user_input: str) dict
-        +format_response(response: str, sources: List[str]) str
+        +get_response(retriever: Any, user_input: str) Dict[str, Any]
     }
 
-    class TestRAGApp {
-        +test_initialization_sets_up_dependencies()
-        +test_query_documents_with_context()
-        +test_query_documents_no_vectorstore()
-        +test_query_documents_retriever_failure()
-        +test_query_documents_model_failure()
-        +test_query_documents_exception_handling()
-        +test_display_similarity_results()
-        +test_handle_user_input()
-        +test_prepare_vectorstore()
+    class ConfigLoader {
+        +load_config(config_file: str) Dict[str, Any]
+        +setup_logging(config: Dict[str, Any])
     }
 
     RAGApp --> DocumentProcessor : uses
     RAGApp --> RAGModel : uses
+    RAGApp --> ConfigLoader : uses
     DocumentProcessor --> FAISS : creates
+    DocumentProcessor --> ConfigLoader : uses
     RAGModel --> ChatGroq : uses
-    TestRAGApp ..> RAGApp : tests
+    RAGModel --> ConfigLoader : uses

@@ -29,7 +29,7 @@ This Streamlit app lets you upload PDFs, converts them into embeddings with Hugg
 
 The project includes a development environment with hot-reloading and test watching capabilities.
 
-### Using Docker Compose (Recommended)
+### Using Docker Compose
 
 1. Clone the repository:
 ```bash
@@ -143,3 +143,9 @@ The system architecture is documented in two key diagrams:
 1. **Class Diagram**: See [class_diagram.md](documents/class_diagram.md) for the detailed class relationships and interactions.
 2. **System Design**: For comprehensive system design information, see [SYSTEM_DESIGN.md](documents/SYSTEM_DESIGN.md).
 
+# Sample Questions for the Job Desctription ChatBot
+1. What programming languages are required for the Software Engineer II role, and what level of proficiency is expected?
+2. How does the Chief Technology Officer role contribute to the company's technology strategy, and what skills are necessary for this position?
+3. In the Director of Operations role, how do the responsibilities for developing and implementing operational policies and procedures relate to technical expertise?
+4. What specific HR systems or tools does the Human Resources Manager role require knowledge of, and how do these systems impact the department's operations?
+5. How do the technical requirements for the Software Engineer II role align with the company's overall technology vision, as set by the Chief Technology Officer?

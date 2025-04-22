@@ -9,20 +9,24 @@ Build a fast and accurate RAG system for querying job descriptions using natural
 3. **Scalability**: Design for horizontal scaling and growing document collections
 4. **Extensibility**: Maintain flexibility for future model and feature additions
 5. **Cost-Effectiveness**: Balance resource usage with performance requirements
+6. **Configurability**: Centralized configuration management
+7. **Observability**: Comprehensive logging and monitoring
 
 ## Workflows and Use Cases
 
 ### Primary Workflow
 1. **Document Processing**
-   - System loads PDFs from "./job_descriptions" folder
+   - System loads PDFs from configured directory
    - Documents are processed and stored
    - Vector embeddings are generated and stored
+   - Logging tracks processing steps and performance
 
 2. **Query Processing**
    - User submits natural language query
    - System retrieves relevant context
    - LLM generates response with source attribution
    - Results displayed with performance metrics
+   - Logging tracks query processing and response times
 
 ### Key Use Cases
 1. **Job Description Analysis**
@@ -35,6 +39,11 @@ Build a fast and accurate RAG system for querying job descriptions using natural
    - Context preservation
    - Automatic updates when new documents are added to folder
 
+3. **System Monitoring**
+   - Performance tracking
+   - Error logging
+   - Usage analytics
+
 ## High Level System
 
 ```mermaid
@@ -45,6 +54,12 @@ graph TD
     C --> D
     D --> E[LLM Service]
     E --> A
+    F[Configuration] --> B
+    F --> C
+    F --> E
+    G[Logging] --> B
+    G --> C
+    G --> E
 ```
 
 ## Components
@@ -53,21 +68,37 @@ graph TD
 - User interface for queries
 - Real-time response display
 - Performance metrics visualization
+- Error handling and user feedback
 
 ### 2. Document Processor
-- **PyPDFDirectoryLoader**: PDF loading from "./job_descriptions"
-- **TextSplitter**: Chunk creation (1000/200)
+- **PyPDFDirectoryLoader**: PDF loading from configured directory
+- **TextSplitter**: Chunk creation with configurable size/overlap
 - **Embeddings**: all-MiniLM-L6-v2 (384-dim)
+- **Logging**: Processing steps and performance metrics
 
 ### 3. Vector Store (FAISS)
 - FlatL2 index for maximum accuracy
 - 384-dimensional vectors
 - k=4 nearest neighbor search
+- Configurable search parameters
 
 ### 4. LLM Service (Groq)
 - Model: Llama3-8B-8192
 - Temperature: 0.7
 - Context window: 8K tokens
+- Error handling and logging
+
+### 5. Configuration Management
+- YAML-based configuration
+- Centralized settings
+- Environment-specific configs
+- Logging configuration
+
+### 6. Logging System
+- File and console output
+- Performance metrics
+- Error tracking
+- User interaction logging
 
 ## Sequence Diagram
 
@@ -78,32 +109,47 @@ sequenceDiagram
     participant D as Document Processor
     participant V as Vector Store
     participant L as LLM Service
+    participant C as Config
+    participant G as Logger
 
+    C->>D: Load Config
+    C->>L: Load Config
+    C->>G: Setup Logging
+    
     D->>V: Load and Store Embeddings
+    G->>D: Log Processing
     
     U->>F: Submit Query
     F->>V: Search Similar Chunks
+    G->>F: Log Query
     V->>L: Send Context + Query
+    G->>V: Log Search
     L->>F: Generate Response
+    G->>L: Log Generation
     F->>U: Display Results
 ```
 
-## Next Steps
+## Configuration Management
 
-### Short Term (1-3 months)
-1. Implement performance monitoring dashboard
-2. Add support for additional document formats in "./job_descriptions" (DOCX, HTML)
-3. Optimize vector store for larger document collections
+### 1. Document Processing
+```yaml
+document:
+  default_path: "./job_descriptions"
+  chunk_size: 1000
+  chunk_overlap: 200
+  embedding_model: "all-MiniLM-L6-v2"
+```
 
-### Medium Term (3-6 months)
-1. Develop custom embedding model for job descriptions
-2. Implement semantic caching for frequent queries
-3. Add user feedback mechanism
-
-### Long Term (6+ months)
-1. Explore multi-modal document processing
-2. Implement distributed vector store
-3. Develop advanced analytics features
+### 2. Logging
+```yaml
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  handlers:
+    - type: "file"
+      filename: "app_performance.log"
+    - type: "console"
+```
 
 ## Performance Metrics
 - **Latency**: 
@@ -113,11 +159,23 @@ sequenceDiagram
 - **Throughput**: 10+ concurrent users
 - **Accuracy**: 85%+ relevance score
 - **Memory**: ~1.5GB total usage
+- **Logging**: < 1ms overhead per operation
 
 ## Trade-offs
 1. **Model Size**: Llama3-8B vs larger models
 2. **Vector Store**: FAISS FlatL2 vs compressed indexes
 3. **Chunking**: Fixed-size vs semantic chunking
+4. **Logging**: Verbosity vs Performance
+5. **Configuration**: Flexibility vs Complexity
+
+## Future Enhancements
+1. **Multi-modal Support**: Image and table extraction
+2. **Advanced Caching**: Semantic cache for frequent queries
+3. **Feedback Loop**: User feedback integration
+4. **Custom Embeddings**: Domain-specific models
+5. **Performance Monitoring**: Real-time metrics dashboard
+6. **Log Analysis**: Automated log parsing and insights
+7. **Config Validation**: Schema-based config validation
 
 ## Architecture Components
 
@@ -215,4 +273,3 @@ The system design prioritizes:
 3. Extensibility for future enhancements
 4. Cost-effectiveness through optimized resource usage
 
-The chosen technologies and architecture provide a solid foundation for a production-ready RAG system while maintaining flexibility for future improvements. 

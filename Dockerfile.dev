@@ -6,6 +6,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+ENV PYTORCH_JIT=0
+
 # Install dev tools
 RUN pip install watchdog pytest
 
