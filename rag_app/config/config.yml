@@ -42,13 +42,3 @@ logging:
       filename: "app_performance.log"
     - type: "console"
 
-# Add other configuration sections here as needed
-# For example:
-# api:
-#   base_url: "https://api.example.com"
-#   timeout: 30
-#
-# database:
-#   host: "localhost"
-#   port: 5432
-#   name: "myapp" 
